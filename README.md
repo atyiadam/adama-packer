@@ -12,12 +12,12 @@ $ packer init .
 ### Validate
 
 ```
-$ packer validate -var-file templates/ubuntu-live-server-amd64-24_04_1/values.auto.pkrvars.hcl templates/ubuntu-live-server-amd64-24_04_1/.
+$ packer validate -var node=<PROXMOX_NODE_NAME> -var vm_id=<VM_ID> -var-file templates/<TEMPLATE>/values.auto.pkrvars.hcl templates/<TEMPLATE>/.
 ```
 
 ### Build
 
 From the root directory run:
 ```
-$ packer build -var-file templates/<template_folder>/values.auto.pkrvars.hcl templates/<template_folder>/
-``
+$ packer build -var node=<PROXMOX_NODE_NAME> -var vm_id=<VM_ID> -var-file templates/<TEMPLATE>/values.auto.pkrvars.hcl templates/<TEMPLATE>/.
+```

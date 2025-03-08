@@ -4,6 +4,15 @@ autoinstall:
   locale: en_US
   keyboard:
     layout: us 
+  early-commands:
+    # Disable unattended-upgrades
+    - ( FILE="/target/usr/bin/unattended-upgrade" ; until [ -e "$FILE" ] ; do sleep 1 ; done ; sed -i '1i#!/bin/true' "$FILE" ) &
+  late-commands:
+    # Re-enable unattended-upgrades
+    - sed -i '\,^#!/bin/true$,d' "/target/usr/bin/unattended-upgrade"
+    # Upgrade packages
+    - curtin in-target -- apt-get update
+    - curtin in-target -- apt-get --yes upgrade
   ssh:
     install-server: true
     allow-pw: false 
@@ -20,6 +29,7 @@ autoinstall:
       size: 0
   user-data:
     timezone: Europe/Amsterdam
+    package_upgrade: false
     users:
       - name: adama 
         groups: [admin, sudo]
